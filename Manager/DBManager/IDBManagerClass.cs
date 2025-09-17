@@ -9,7 +9,7 @@ namespace Analysis_Server.Manager.DBManager
 {
     public interface IDBManagerClass
     {
-        SetupClass GetSetupClass();
+        ServerInfosClass GetServerInfosClass();
         List<CameraInfoClass> GetCameraInfosClasses();
     }
 }

@@ -1,3 +1,9 @@
 bin/
 obj/
 packages/
+.vs/Analysis_Server.csproj.dtbcache.json
+.vs/Analysis_Server/FileContentIndex/7622cb35-1bbd-4732-bc35-41d39d188781.vsidx
+.vs/Analysis_Server/FileContentIndex/a874cdfa-6b58-4010-aead-fe8b69fc8cc2.vsidx
+.vs/Analysis_Server/v17/.suo
+.vs/Analysis_Server/v17/DocumentLayout.backup.json
+.vs/Analysis_Server/v17/DocumentLayout.json

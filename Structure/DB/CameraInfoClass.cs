@@ -8,21 +8,21 @@ namespace Analysis_Server.Structure.DB
 {
     public class CameraInfoClass
     {
-        public int m_idx { get; }
-        public string m_videoSourceId { get; }
-        public string m_cameraName { get; }
-        public string m_rtspUrl { get; }
-        public double m_coordx { get; }
-        public double m_coordy { get; }
+        public int cameraId { get; }
+        public string cameraName { get; }
+        public string cctvUrl { get; }
+        public float coordx { get; }
+        public float coordy { get; }
+        public bool isAnalisis { get; }
 
-        public CameraInfoClass(int idx, string videoSourceId, string cameraName, string rtspUrl, double coordx, double coordy)
+        public CameraInfoClass(int cameraId, string cameraName, string cctvUrl, float coordx, float coordy, bool isAnalisis)
         {
-            m_idx = idx;
-            m_videoSourceId = videoSourceId;
-            m_cameraName = cameraName;
-            m_rtspUrl = rtspUrl;
-            m_coordx = coordx;
-            m_coordy = coordy;
+            this.cameraId = cameraId;
+            this.cameraName = cameraName;
+            this.cctvUrl = cctvUrl;
+            this.coordx = coordx;
+            this.coordy = coordy;
+            this.isAnalisis = isAnalisis;
         }
     }
 }

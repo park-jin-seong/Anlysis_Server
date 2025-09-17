@@ -31,10 +31,10 @@ namespace Analysis_Server.THD
         public delegate void SendResultDelegate(string videoSourceid, List<AnalysisReultClass> result);
         private SendResultDelegate m_callback;
         
-        public AnalysisThreadClass(string modelPath, int idx, string videoSourceId, string cameraName, string rtspUrl, double coordx, double coordy)
+        public AnalysisThreadClass(string modelPath, int cameraId, string cameraName, string cctvUrl, float coordx, float coordy, bool isAnalisis)
         {
             m_ModelPath = modelPath;
-            m_CameraInfo = new CameraInfoClass(idx, videoSourceId, cameraName, rtspUrl, coordx, coordy);
+            m_CameraInfo = new CameraInfoClass(cameraId, cameraName, cctvUrl, coordx, coordy, isAnalisis);
             m_Thread = new Thread(DoWork);
             m_Running = false;
             m_pause = false;
@@ -50,7 +50,7 @@ namespace Analysis_Server.THD
 
         public bool CheckVideoSourceId(string id)
         {
-            if (id.Equals(m_CameraInfo.m_videoSourceId))
+            if (id.Equals(m_CameraInfo.cameraId.ToString()))
             {
                 return true;
             }
@@ -85,7 +85,7 @@ namespace Analysis_Server.THD
         {
             VideoCapture capture = new VideoCapture();
 
-            capture.Open(m_CameraInfo.m_rtspUrl);
+            capture.Open(m_CameraInfo.cctvUrl);
             Mat image = new Mat();  // 프로토콜로 받을 이미지
             Bitmap bitmap;  // 받은 이미지 분석용으로 변환
             Stopwatch stopwatch = new Stopwatch();  //분석 속도 측정
@@ -115,7 +115,7 @@ namespace Analysis_Server.THD
                     //Cv2.WaitKey(sleepTime);
                     stopwatch.Stop(); //시간측정 끝
 
-                    System.Console.WriteLine(m_CameraInfo.m_videoSourceId + " : " + stopwatch.ElapsedMilliseconds + "ms");
+                    System.Console.WriteLine(m_CameraInfo.cameraId + " : " + stopwatch.ElapsedMilliseconds + "ms");
                     
                 }
             }
@@ -164,7 +164,7 @@ namespace Analysis_Server.THD
             }
             if (analysisReultClasses.Count != 0)
             {
-                m_callback.Invoke(m_CameraInfo.m_videoSourceId, analysisReultClasses);
+                m_callback.Invoke(m_CameraInfo.cameraId.ToString(), analysisReultClasses);
             }
         }
     }

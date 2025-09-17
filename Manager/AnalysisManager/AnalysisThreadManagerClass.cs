@@ -46,12 +46,12 @@ namespace Analysis_Server.Manager.AnalysisManager
         private void AddAnlysisThread(string modelPath, CameraInfoClass cameraInfoClass)
         {
             m_analysisThreadClasses.Add(new AnalysisThreadClass(modelPath, 
-                                                                cameraInfoClass.m_idx, 
-                                                                cameraInfoClass.m_videoSourceId, 
-                                                                cameraInfoClass.m_cameraName, 
-                                                                cameraInfoClass.m_rtspUrl, 
-                                                                cameraInfoClass.m_coordx, 
-                                                                cameraInfoClass.m_coordy));
+                                                                cameraInfoClass.cameraId, 
+                                                                cameraInfoClass.cameraName, 
+                                                                cameraInfoClass.cctvUrl, 
+                                                                cameraInfoClass.coordx, 
+                                                                cameraInfoClass.coordy, 
+                                                                cameraInfoClass.isAnalisis));
             m_analysisThreadClasses.Last<AnalysisThreadClass>().SetCallback(SendReultData);
         }
         private void StartAll()  
