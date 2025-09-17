@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Analysis_Server.Structure.Analysis;
+using System.IO;
+using System.Windows.Interop;
 
 namespace Analysis_Server.THD
 {
@@ -18,7 +20,7 @@ namespace Analysis_Server.THD
         private TcpListener m_listener;
         private int m_port;
 
-        public delegate void SendResultDelegate(TcpClient result);
+        public delegate void SendResultDelegate(TcpClient result, int cameraId);
         private SendResultDelegate m_callback;
         public ConnectThreadClass()
         {
@@ -70,7 +72,19 @@ namespace Analysis_Server.THD
                     // 클라이언트 접속 대기 (비동기 아님, 쓰레드로 처리함)
                     TcpClient client = m_listener.AcceptTcpClient();
                     Console.WriteLine($"클라이언트 접속: {client.Client.RemoteEndPoint}");
-                    m_callback.Invoke(client);
+
+                    string msg = "";
+
+                    using (NetworkStream ns = client.GetStream())
+                    using (StreamReader reader = new StreamReader(ns))
+                    {
+                        msg = reader.ReadLine();  // 클라이언트에서 \n 으로 끝나는 문자열 전송해야 읽힘
+                        Console.WriteLine($"받은 메시지: {msg}");
+                    }
+                    if (!msg.Equals(""))
+                    {
+                        m_callback.Invoke(client, Convert.ToInt32(msg));
+                    }
                 }
             }
             m_listener.Stop();

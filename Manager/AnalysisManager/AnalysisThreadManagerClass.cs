@@ -39,9 +39,9 @@ namespace Analysis_Server.Manager.AnalysisManager
             StartAll();
         }
 
-        public void SendReultData(string videoSourceid, List<AnalysisReultClass> result)
+        public void SendReultData(int cameraId, List<AnalysisReultClass> result)
         {
-            m_senderThreadManagerClass.AddAnlysisResult(videoSourceid, result);
+            m_senderThreadManagerClass.AddAnlysisResult(cameraId, result);
         }
         private void AddAnlysisThread(string modelPath, CameraInfoClass cameraInfoClass)
         {

@@ -9,6 +9,6 @@ namespace Analysis_Server.Manager.SenderManager
 {
     public interface ISenderThreadManagerClass
     {
-        void AddAnlysisResult(string videoSourceid, List<AnalysisReultClass> result);
+        void AddAnlysisResult(int cameraId, List<AnalysisReultClass> result);
     }
 }

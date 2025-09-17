@@ -28,7 +28,7 @@ namespace Analysis_Server.THD
         private List<RectangleF> boundingBoxes;
         private List<string> labels;
 
-        public delegate void SendResultDelegate(string videoSourceid, List<AnalysisReultClass> result);
+        public delegate void SendResultDelegate(int cameraId, List<AnalysisReultClass> result);
         private SendResultDelegate m_callback;
         
         public AnalysisThreadClass(string modelPath, int cameraId, string cameraName, string cctvUrl, float coordx, float coordy, bool isAnalisis)
@@ -164,7 +164,7 @@ namespace Analysis_Server.THD
             }
             if (analysisReultClasses.Count != 0)
             {
-                m_callback.Invoke(m_CameraInfo.cameraId.ToString(), analysisReultClasses);
+                m_callback.Invoke(m_CameraInfo.cameraId, analysisReultClasses);
             }
         }
     }

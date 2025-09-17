@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -21,11 +21,10 @@ namespace Analysis_Server.Manager.SenderManager
         {
             m_connectThreadClass = new ConnectThreadClass();
             m_connectThreadClass.SetCallback(AddSenderSession);
+            m_senderThreadClasses = new List<SenderThreadClass>();
 
             m_Thread = new Thread(CheckSenderThread);
             m_Thread.Start();
-
-            m_senderThreadClasses = new List<SenderThreadClass>();
 
             m_connectThreadClass.Run();
         }
@@ -48,19 +47,19 @@ namespace Analysis_Server.Manager.SenderManager
             }
             
         }
-        public void AddAnlysisResult(string videoSourceid, List<AnalysisReultClass> result)
+        public void AddAnlysisResult(int cameraId, List<AnalysisReultClass> result)
         {
             foreach (SenderThreadClass senderClass in m_senderThreadClasses)
             {
-                if (senderClass.CompairVideoSourceId(videoSourceid))
+                if (senderClass.CompairCameraId(cameraId))
                 {
                     senderClass.addResult(result);
                 }
             }
         }
-        public void AddSenderSession(TcpClient tcpClient)
+        public void AddSenderSession(TcpClient tcpClient, int cameraId)
         {
-            m_senderThreadClasses.Add(new SenderThreadClass(m_senderThreadClasses.Count, tcpClient));
+            m_senderThreadClasses.Add(new SenderThreadClass(tcpClient, cameraId));
             m_senderThreadClasses.Last<SenderThreadClass>().Run();
         }
 

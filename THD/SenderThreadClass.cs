@@ -22,13 +22,15 @@ namespace Analysis_Server.THD
         private ManualResetEvent m_event;
         private bool m_isThreadFinished;
 
-        public SenderThreadClass(int idx,TcpClient tcpClient)
+        private int m_cameraId;
+
+        public SenderThreadClass(TcpClient tcpClient, int cameraId)
         {
             m_tcpClient = tcpClient;
+            m_cameraId = cameraId;
             m_Thread = new Thread(DoWork);
             m_Running = false;
             m_pause = false;
-            m_videoSourceId = "";
             m_event = new ManualResetEvent(false);
             m_isThreadFinished = false;
         }
@@ -42,9 +44,9 @@ namespace Analysis_Server.THD
             m_analysisReultClasses = result;
             m_event.Set();
         }
-        public bool CompairVideoSourceId(string id)
+        public bool CompairCameraId(int id)
         {
-            return m_videoSourceId.Equals(id);
+            return m_cameraId.Equals(id);
         }
         public void Run()
         {
