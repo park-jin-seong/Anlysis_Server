@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Analysis_Server.Manager.AnalysisManager;
+using Analysis_Server.Manager.DBManager;
 using Analysis_Server.Structure.Analysis;
 using Analysis_Server.THD;
 
@@ -17,9 +18,9 @@ namespace Analysis_Server.Manager.SenderManager
         private ConnectThreadClass m_connectThreadClass;
         private List<SenderThreadClass> m_senderThreadClasses;
         private Thread m_Thread;
-        public SenderThreadManagerClass()
+        public SenderThreadManagerClass(IDBManagerClass dBManagerClass)
         {
-            m_connectThreadClass = new ConnectThreadClass();
+            m_connectThreadClass = new ConnectThreadClass(dBManagerClass.GetServerInfosClass().serverPort);
             m_connectThreadClass.SetCallback(AddSenderSession);
             m_senderThreadClasses = new List<SenderThreadClass>();
 

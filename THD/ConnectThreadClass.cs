@@ -22,12 +22,12 @@ namespace Analysis_Server.THD
 
         public delegate void SendResultDelegate(TcpClient result, int cameraId);
         private SendResultDelegate m_callback;
-        public ConnectThreadClass()
+        public ConnectThreadClass(int serverPort)
         {
             m_Thread = new Thread(DoWork);
             m_Running = false;
             m_pause = false;
-            m_port = 5000;
+            m_port = serverPort;
         }
 
         public void SetCallback(SendResultDelegate callback)
