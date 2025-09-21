@@ -110,13 +110,13 @@ namespace Analysis_Server.Manager.DBManager
                 conn.Open();
 
                 using (var cmd = new MySqlCommand(
-                    "SELECT cameraId, cameraName, cctvUrl, coordx, coordy, isAnalisis FROM camerainfos WHERE analysisServerId = (SELECT serverId FROM serverinfos WHERE serverIp = @ip) AND isAnalisis = 1;", conn))
+                    "SELECT cameraId, cameraName, cctvUrl, coordx, coordy, isAnalisis FROM camerainfos WHERE analysisServerId = (SELECT serverId FROM serverinfos WHERE serverIp = @ip  AND serverType = 'Analysis') AND isAnalisis = 1;", conn))
                 {
                     cmd.Parameters.AddWithValue("@ip", targetIp);
 
                     using (var reader = cmd.ExecuteReader())
                     {
-                        if (reader.Read())
+                        while (reader.Read())
                         {
                             m_CameraInfosClasses.Add(new CameraInfoClass(
                                 reader.GetInt32(0),
@@ -127,6 +127,7 @@ namespace Analysis_Server.Manager.DBManager
                                 reader.GetBoolean(5)));
                         }
                     }
+
                 }
             }
         }
