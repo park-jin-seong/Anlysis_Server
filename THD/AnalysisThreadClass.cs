@@ -116,7 +116,8 @@ namespace Analysis_Server.THD
                     stopwatch.Stop(); //시간측정 끝
 
                     System.Console.WriteLine(m_CameraInfo.cameraId + " : " + stopwatch.ElapsedMilliseconds + "ms");
-                    
+                    Thread.Sleep(1);
+
                 }
             }
         }

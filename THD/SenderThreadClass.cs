@@ -75,16 +75,7 @@ namespace Analysis_Server.THD
         private void DoWork()
         {
             NetworkStream stream = m_tcpClient.GetStream();
-
-            //VideoSourceId 받기
-            byte[] lengthBuffer = new byte[4];
-            stream.Read(lengthBuffer, 0, 4);
-            int dataLength = BitConverter.ToInt32(lengthBuffer, 0);
-
-            // 그 길이만큼 데이터 받기
-            byte[] buffer = new byte[dataLength];
-            int bytesRead = stream.Read(buffer, 0, buffer.Length);
-            m_videoSourceId = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+            byte[] buffer;
 
             while (m_Running)
             {
@@ -106,7 +97,7 @@ namespace Analysis_Server.THD
                         // JSON 데이터 전송
                         stream.Write(buffer, 0, buffer.Length);
 
-                        Console.WriteLine("데이터 전송 완료");
+                        //Console.WriteLine("데이터 전송 완료");
                     }
                     catch (Exception e)
                     {
@@ -114,6 +105,7 @@ namespace Analysis_Server.THD
                         m_Running = false;
                         m_pause = false;
                     }
+                    Thread.Sleep(1);
                 }
             }
             m_tcpClient.Close();

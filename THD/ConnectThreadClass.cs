@@ -69,21 +69,25 @@ namespace Analysis_Server.THD
             {
                 while (m_pause)
                 {
-                    // 클라이언트 접속 대기 (비동기 아님, 쓰레드로 처리함)
-                    TcpClient client = m_listener.AcceptTcpClient();
-                    Console.WriteLine($"클라이언트 접속: {client.Client.RemoteEndPoint}");
-
-                    string msg = "";
-
-                    using (NetworkStream ns = client.GetStream())
-                    using (StreamReader reader = new StreamReader(ns))
+                    try
                     {
+                        // {클라이언트 접속 대기 (비동기 아님, 쓰레드로 처리함)
+                        TcpClient client = m_listener.AcceptTcpClient();
+                        Console.WriteLine($"클라이언트 접속: {client.Client.RemoteEndPoint}");
+
+                        string msg = "";
+                        NetworkStream ns = client.GetStream();
+                        StreamReader reader = new StreamReader(ns);
                         msg = reader.ReadLine();  // 클라이언트에서 \n 으로 끝나는 문자열 전송해야 읽힘
                         Console.WriteLine($"받은 메시지: {msg}");
+                        if (!msg.Equals(""))
+                        {
+                            m_callback.Invoke(client, Convert.ToInt32(msg));
+                        }
                     }
-                    if (!msg.Equals(""))
+                    catch (Exception ex)
                     {
-                        m_callback.Invoke(client, Convert.ToInt32(msg));
+                        Console.WriteLine(ex.ToString());
                     }
                 }
             }
